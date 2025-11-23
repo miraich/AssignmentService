@@ -114,7 +114,7 @@ cd AssignmentService
 
 2. **Запустите проект**:
 ```bash
-docker-compose up
+docker compose up
 ```
 
 Эта команда:
