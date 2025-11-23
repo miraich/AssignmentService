@@ -45,7 +45,8 @@ public class UserController {
         return userMapper.mapToUpdateRs(userService.updateStatus(userMapper.mapFromUpdateRq(updateUserRq)));
     }
 
-    @Operation(summary = "Получить PR'ы, где пользователь назначен ревьювером", description = "Получить список PR'ов, где пользователь назначен ревьювером")
+    @Operation(summary = "Получить PR'ы, где пользователь назначен ревьювером",
+            description = "Получить список PR'ов, где пользователь назначен ревьювером")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Список PR'ов пользователя",
                     content = @Content(schema = @Schema(implementation = GetUserPullRequestsRs.class))),

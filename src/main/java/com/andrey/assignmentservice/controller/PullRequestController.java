@@ -32,7 +32,8 @@ public class PullRequestController {
     private final PullRequestMapper pullRequestMapper;
     private final PullRequestManagementServiceImpl pullRequestManagementService;
 
-    @Operation(summary = "Создать PR и автоматически назначить до 2 ревьюверов", description = "Создать PR и автоматически назначить до 2 ревьюверов из команды автора")
+    @Operation(summary = "Создать PR и автоматически назначить до 2 ревьюверов",
+            description = "Создать PR и автоматически назначить до 2 ревьюверов из команды автора")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "PR создан",
                     content = @Content(schema = @Schema(implementation = CreatePullRequestRs.class))),
@@ -63,7 +64,8 @@ public class PullRequestController {
         );
     }
 
-    @Operation(summary = "Переназначить конкретного ревьювера", description = "Переназначить конкретного ревьювера на другого из его команды")
+    @Operation(summary = "Переназначить конкретного ревьювера",
+            description = "Переназначить конкретного ревьювера на другого из его команды")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Переназначение выполнено",
                     content = @Content(schema = @Schema(implementation = ReassignPullRequestRs.class))),
@@ -73,7 +75,7 @@ public class PullRequestController {
                     description = """
                             Возможные конфликты:
                             - Нельзя менять после MERGED
-                            - Пользователь не был назначен ревьювером  
+                            - Пользователь не был назначен ревьювером
                             - Нет доступных кандидатов
                             """,
                     content = @Content(schema = @Schema(implementation = ErrorRs.class)))
