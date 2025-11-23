@@ -6,12 +6,12 @@ import jakarta.validation.constraints.NotEmpty;
 import lombok.Builder;
 import lombok.extern.jackson.Jacksonized;
 
-import java.util.List;
+import java.util.Set;
 
 @Jacksonized
 @Builder(toBuilder = true)
 public record CreateTeamRq(
         @NotBlank String teamName,
-        @NotEmpty List<CreateUserRq> members
+        @NotEmpty Set<CreateUserRq> members
 ) {
 }

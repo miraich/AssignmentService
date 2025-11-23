@@ -18,7 +18,7 @@ public class StatisticsManagementServiceImpl {
     private final PullRequestService pullRequestService;
 
     public ReviewStatisticsRs getReviewStatistics() {
-        List<PullRequest> allPullRequests = pullRequestService.findAll();
+        List<PullRequest> allPullRequests = pullRequestService.findAllWithReviewersAndTheirTeams();
 
         Map<String, Long> assignmentsPerUser = calculateAssignmentsPerUser(allPullRequests);
         Map<String, Long> reviewsPerPullRequest = calculateReviewsPerPullRequest(allPullRequests);

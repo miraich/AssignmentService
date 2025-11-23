@@ -14,19 +14,23 @@ public class TeamServiceImpl implements TeamService {
     private final TeamRepository teamRepository;
 
     @Override
-    public Team save(Team team) {
+    public Team create(Team team) {
         if (exists(team.getTeamName())) {
             throw new TeamExistsException("Team with name " + team.getTeamName() + " already exists");
         }
+        return save(team);
+    }
+
+    @Override
+    public Team save(Team team) {
         return teamRepository.save(team);
     }
 
     @Override
-    public Team findByTeamName(String teamName) {
-        if (!exists(teamName)) {
-            throw new EntityNotFoundException("Team with name " + teamName + " does not exist");
-        }
-        return teamRepository.findByTeamName(teamName);
+    public Team findByTeamNameWithMembers(String teamName) {
+        return teamRepository.findByTeamNameWithMembers(teamName).orElseThrow(
+                () -> new EntityNotFoundException("Team with name " + teamName + " does not exist")
+        );
     }
 
     @Override

@@ -13,5 +13,5 @@ public record ReviewStatisticsRs(
         Long mergedPullRequests,
         Map<String, Long> assignmentsPerUser,
         Map<String, Long> reviewsPerPullRequest
-        ) {
+) {
 }

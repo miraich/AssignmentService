@@ -27,7 +27,7 @@ public class UserController {
 
     @PostMapping("/setIsActive")
     public UpdateUserRs setUserIsActive(@RequestBody @Valid UpdateUserRq updateUserRq) {
-        return userMapper.mapToUpdateRs(userService.update(userMapper.mapFromUpdateRq(updateUserRq)));
+        return userMapper.mapToUpdateRs(userService.updateStatus(userMapper.mapFromUpdateRq(updateUserRq)));
     }
 
     @GetMapping("/getReview")

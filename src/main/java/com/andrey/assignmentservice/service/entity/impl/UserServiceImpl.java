@@ -7,6 +7,7 @@ import com.andrey.assignmentservice.service.entity.UserService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -14,10 +15,15 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
 
     @Override
-    public User save(User user) {
+    public User create(User user) {
         if (exists(user.getId())) {
             throw new UserExistsException("User with id " + user.getId() + " already exists");
         }
+        return save(user);
+    }
+
+    @Override
+    public User save(User user) {
         return userRepository.save(user);
     }
 
@@ -30,10 +36,37 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User update(User user) {
-        User userToUpdate = get(user.getId());
-        userToUpdate.setIsActive(user.getIsActive());
-        return userRepository.save(userToUpdate);
+    public User getWithPullRequest(String userId) {
+        return userRepository.findWithPullRequest(userId).orElseThrow(
+                () -> new EntityNotFoundException(
+                        String.format("User with id %s isn't found", userId)
+                )
+        );
+    }
+
+    @Override
+    public User getWithTeam(String userId) {
+        return userRepository.findWithTeam(userId).orElseThrow(
+                () -> new EntityNotFoundException(
+                        String.format("User with id %s isn't found", userId)
+                )
+        );
+    }
+
+    @Override
+    public User getWithTeamAndMembers(String userId) {
+        return userRepository.findWithTeamAndMembers(userId).orElseThrow(
+                () -> new EntityNotFoundException(
+                        String.format("User with id %s isn't found", userId)
+                )
+        );
+    }
+
+    @Override
+    @Transactional
+    public User updateStatus(User user) {
+        userRepository.updateUserStatus(user.getId(), user.getIsActive());
+        return getWithTeam(user.getId());
     }
 
     @Override

@@ -3,7 +3,12 @@ services:
     build: .
     container_name: assignment_service
     pull_policy: always
-    #    environment:
+    environment:
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_NAME=postgres
+      - DB_USERNAME=postgres
+      - DB_PASSWORD=postgres
     ports:
       - "8080:8080"
     restart: unless-stopped
@@ -15,6 +20,8 @@ services:
     image: postgres:18
     container_name: postgres-db
     environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
     volumes:
       - postgres_data:/var/lib/postgresql

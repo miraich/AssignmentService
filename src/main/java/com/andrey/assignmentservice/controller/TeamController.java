@@ -33,6 +33,6 @@ public class TeamController {
 
     @GetMapping("/get")
     public GetTeamRs getTeam(@RequestParam("team_name") String teamName) {
-        return teamMapper.mapToGetRs(teamService.findByTeamName(teamName));
+        return teamMapper.mapToGetRs(teamService.findByTeamNameWithMembers(teamName));
     }
 }

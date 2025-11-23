@@ -18,16 +18,16 @@
         <module name="LocalVariableName"/>
         <module name="PackageName">
             <property name="format" value="^[a-z]+(\.[a-z][a-z0-9]*)*$"/>
-            <message key="name.invalidPattern" value="包名 ''{0}'' 要符合 ''{1}''格式."/>
+            <message key="name.invalidPattern" value="Type name ''{0}'' must match pattern ''{1}''."/>
         </module>
         <module name="StaticVariableName"/>
         <module name="TypeName">
             <property name="severity" value="warning"/>
-            <message key="name.invalidPattern" value="名称 ''{0}'' 要符合 ''{1}''格式."/>
+            <message key="name.invalidPattern" value="Type name ''{0}'' must match pattern ''{1}''."/>
         </module>
         <module name="MemberName"/>
         <module name="MethodName"/>
-        <module name="ParameterName "/>
+        <module name="ParameterName"/>
         <module name="ConstantName"/>
         <module name="ArrayTypeStyle"/>
         <module name="UpperEll"/>
@@ -79,7 +79,7 @@
         <module name="UncommentedMain">
             <property name="excludedClasses" value=".*[Application,Test]$"/>
         </module>
-        <module name="NestedTryDepth ">
+        <module name="NestedTryDepth">
             <property name="max" value="3"/>
         </module>
         <module name="SuperClone"/>

@@ -31,10 +31,9 @@ public class PullRequestManagementServiceImpl {
     @Transactional
     public PullRequest createPullRequest(PullRequest pullRequest) {
         pullRequest.setStatus(PullRequestStatus.OPEN);
-        User author = userService.get(pullRequest.getAuthor().getId());
+        User author = userService.getWithTeamAndMembers(pullRequest.getAuthor().getId());
         pullRequest.setAuthor(author);
-        List<User> authorTeammates = pullRequest
-                .getAuthor()
+        List<User> authorTeammates = author
                 .getTeam()
                 .getMembers()
                 .stream()
@@ -44,28 +43,28 @@ public class PullRequestManagementServiceImpl {
 
         Set<User> randomReviewers = selectRandomReviewers(authorTeammates, 2);
         pullRequest.setAssignedReviewers(randomReviewers);
-        return pullRequestService.save(pullRequest);
+        return pullRequestService.create(pullRequest);
     }
 
     public Set<PullRequest> getUserPullRequests(String userId) {
-        User user = userService.get(userId);
+        User user = userService.getWithPullRequest(userId);
         return user.getPullRequests();
     }
 
     @Transactional
     public PullRequest mergePullRequest(String pullRequestId) {
-        PullRequest pullRequest = pullRequestService.find(pullRequestId);
+        PullRequest pullRequest = pullRequestService.findWithReviewers(pullRequestId);
         if (pullRequest.getStatus().equals(PullRequestStatus.MERGED)) {
             return pullRequest;
         }
         pullRequest.setMergedAt(Instant.now());
         pullRequest.setStatus(PullRequestStatus.MERGED);
-        return pullRequestService.update(pullRequest, pullRequestId);
+        return pullRequest;
     }
 
     @Transactional
     public ReassignPullRequestDto reassignPullRequest(ReassignPullRequestRq reassignPullRequestRq) {
-        PullRequest pullRequest = pullRequestService.find(reassignPullRequestRq.pullRequestId());
+        PullRequest pullRequest = pullRequestService.findWithReviewersAndTheirTeams(reassignPullRequestRq.pullRequestId());
         if (pullRequest.getStatus().equals(PullRequestStatus.MERGED)) {
             throw new PullRequestMergedException("Merged pull requests cannot be reassigned");
         }

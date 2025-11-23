@@ -16,11 +16,11 @@ public class PullRequestServiceImpl implements PullRequestService {
     private final PullRequestRepository pullRequestRepository;
 
     @Override
-    public PullRequest save(PullRequest pullRequest) {
+    public PullRequest create(PullRequest pullRequest) {
         if (exists(pullRequest.getId())) {
             throw new PullRequestExistsException("Pull request " + pullRequest.getId() + " already exists");
         }
-        return pullRequestRepository.save(pullRequest);
+        return save(pullRequest);
     }
 
     @Override
@@ -31,15 +31,26 @@ public class PullRequestServiceImpl implements PullRequestService {
     }
 
     @Override
-    public List<PullRequest> findAll() {
-        return pullRequestRepository.findAll();
+    public PullRequest findWithReviewers(String pullRequestId) {
+        return pullRequestRepository.findWithReviewers(pullRequestId).orElseThrow(
+                () -> new EntityNotFoundException("Pull request " + pullRequestId + " not found")
+        );
     }
 
     @Override
-    public PullRequest update(PullRequest pullRequest, String id) {
-        if (!exists(pullRequest.getId())) {
-            throw new EntityNotFoundException("Pull request " + pullRequest.getId() + " not found");
-        }
+    public PullRequest findWithReviewersAndTheirTeams(String pullRequestId) {
+        return pullRequestRepository.findWithReviewersAndTheirTeams(pullRequestId).orElseThrow(
+                () -> new EntityNotFoundException("Pull request " + pullRequestId + " not found")
+        );
+    }
+
+    @Override
+    public List<PullRequest> findAllWithReviewersAndTheirTeams() {
+        return pullRequestRepository.findAllWithReviewersAndTheirTeams();
+    }
+
+    @Override
+    public PullRequest save(PullRequest pullRequest) {
         return pullRequestRepository.save(pullRequest);
     }
 

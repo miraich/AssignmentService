@@ -5,13 +5,17 @@ import com.andrey.assignmentservice.model.PullRequest;
 import java.util.List;
 
 public interface PullRequestService {
-    PullRequest save(PullRequest pullRequest);
+    PullRequest create(PullRequest pullRequest);
 
     PullRequest find(String id);
 
-    List<PullRequest> findAll();
+    PullRequest findWithReviewers(String pullRequestId);
 
-    PullRequest update(PullRequest pullRequest, String id);
+    PullRequest findWithReviewersAndTheirTeams(String pullRequestId);
+
+    List<PullRequest> findAllWithReviewersAndTheirTeams();
+
+    PullRequest save(PullRequest pullRequest);
 
     boolean exists(String pullRequestId);
 }

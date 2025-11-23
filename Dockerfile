@@ -2,7 +2,7 @@ FROM eclipse-temurin:23-jdk AS build
 RUN apt-get update && apt-get install -y maven
 COPY . /build
 WORKDIR /build
-RUN mvn clean package -DskipTests
+RUN mvn clean package -Dspring.profiles.active=test
 
 FROM eclipse-temurin:23-jdk
 WORKDIR /app
