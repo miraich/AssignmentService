@@ -2,8 +2,6 @@ package com.andrey.assignmentservice.controller.api;
 
 import com.andrey.assignmentservice.controller.PullRequestController;
 import com.andrey.assignmentservice.controller.UserController;
-import com.andrey.assignmentservice.dto.pullrequest.CreatePullRequestRq;
-import com.andrey.assignmentservice.dto.pullrequest.CreatePullRequestRs;
 import com.andrey.assignmentservice.dto.pullrequest.GetUserPullRequestsRs;
 import com.andrey.assignmentservice.dto.user.UpdateUserRq;
 import com.andrey.assignmentservice.dto.user.UpdateUserRs;
