@@ -33,7 +33,8 @@ public class TeamController {
     private final TeamService teamService;
     private final TeamMapper teamMapper;
 
-    @Operation(summary = "Создать команду с участниками", description = "Создаёт команду с участниками (создаёт/обновляет пользователей)")
+    @Operation(summary = "Создать команду с участниками",
+            description = "Создаёт команду с участниками (создаёт/обновляет пользователей)")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Команда создана",
                     content = @Content(schema = @Schema(implementation = CreateTeamRs.class))),
@@ -46,7 +47,8 @@ public class TeamController {
         return teamMapper.mapToCreateRs(teamManagementService.createTeamWithMembers(teamMapper.map(createTeamRq)));
     }
 
-    @Operation(summary = "Получить команду с участниками", description = "Получить команду с участниками по имени команды")
+    @Operation(summary = "Получить команду с участниками",
+            description = "Получить команду с участниками по имени команды")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Объект команды",
                     content = @Content(schema = @Schema(implementation = GetTeamRs.class))),
