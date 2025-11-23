@@ -39,6 +39,9 @@ AssignmentService/
 ├── pom.xml                          # Maven зависимости
 └── check_style.xml                  # Конфигурация Checkstyle
 ```
+## Документация проекта доступна по пути
+
+http://localhost:8080/swagger-ui/index.html
 
 ##  Пояснение к доп. заданию
 
