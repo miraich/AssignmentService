@@ -9,8 +9,8 @@ import com.andrey.assignmentservice.model.Team;
 import com.andrey.assignmentservice.model.User;
 import com.andrey.assignmentservice.repository.TeamRepository;
 import com.andrey.assignmentservice.repository.UserRepository;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -34,7 +34,7 @@ public class TeamRestControllerIT {
     @Autowired
     private TeamController teamController;
 
-    @AfterEach
+    @BeforeEach
     void setUp() {
         userRepository.deleteAllInBatch();
         teamRepository.deleteAllInBatch();
@@ -136,6 +136,7 @@ public class TeamRestControllerIT {
         Team finalTeam = team;
         team.getMembers().forEach(u -> u.setTeam(finalTeam));
         team = teamRepository.save(team);
+        userRepository.saveAll(team.getMembers());
 
         GetTeamRs teamRs = teamController.getTeam(team.getTeamName());
 

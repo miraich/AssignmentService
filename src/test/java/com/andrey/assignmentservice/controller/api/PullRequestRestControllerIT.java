@@ -12,8 +12,8 @@ import com.andrey.assignmentservice.model.User;
 import com.andrey.assignmentservice.repository.PullRequestRepository;
 import com.andrey.assignmentservice.repository.TeamRepository;
 import com.andrey.assignmentservice.repository.UserRepository;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -41,7 +41,7 @@ public class PullRequestRestControllerIT {
     @Autowired
     private PullRequestController pullRequestController;
 
-    @AfterEach
+    @BeforeEach
     void setUp() {
         pullRequestRepository.deleteAllInBatch();
         userRepository.deleteAllInBatch();
@@ -76,6 +76,7 @@ public class PullRequestRestControllerIT {
         Team finalTeam = team;
         team.getMembers().forEach(u -> u.setTeam(finalTeam));
         team = teamRepository.save(team);
+        userRepository.saveAll(team.getMembers());
 
         User repoUserAuthor = userRepository.findWithTeam(user1.getId()).get();
 
@@ -108,7 +109,7 @@ public class PullRequestRestControllerIT {
     }
 
     @Test
-    void hanndleMergePullRequests_ReturnsValidResponseEntity() {
+    void handleMergePullRequests_ReturnsValidResponseEntity() {
         User user1 = User.builder()
                 .id("u1")
                 .username("Andrey")
@@ -135,6 +136,7 @@ public class PullRequestRestControllerIT {
         Team finalTeam = team;
         team.getMembers().forEach(u -> u.setTeam(finalTeam));
         team = teamRepository.save(team);
+        userRepository.saveAll(team.getMembers());
         User repoUserAuthor = userRepository.findWithTeam(user1.getId()).get();
         User repoUserAssigned1 = userRepository.findWithTeam(user2.getId()).get();
         User repoUserAssigned2 = userRepository.findWithTeam(user3.getId()).get();

@@ -1,6 +1,5 @@
 package com.andrey.assignmentservice.controller.api;
 
-import com.andrey.assignmentservice.controller.PullRequestController;
 import com.andrey.assignmentservice.controller.UserController;
 import com.andrey.assignmentservice.dto.pullrequest.GetUserPullRequestsRs;
 import com.andrey.assignmentservice.dto.user.UpdateUserRq;
@@ -12,8 +11,8 @@ import com.andrey.assignmentservice.model.User;
 import com.andrey.assignmentservice.repository.PullRequestRepository;
 import com.andrey.assignmentservice.repository.TeamRepository;
 import com.andrey.assignmentservice.repository.UserRepository;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -39,12 +38,9 @@ public class UserRestControllerIT {
     private UserController userController;
 
     @Autowired
-    private PullRequestController pullRequestController;
-
-    @Autowired
     private PullRequestRepository pullRequestRepository;
 
-    @AfterEach
+    @BeforeEach
     void setUp() {
         pullRequestRepository.deleteAllInBatch();
         userRepository.deleteAllInBatch();
@@ -79,6 +75,7 @@ public class UserRestControllerIT {
         Team finalTeam = team;
         team.getMembers().forEach(u -> u.setTeam(finalTeam));
         team = teamRepository.save(team);
+        userRepository.saveAll(team.getMembers());
         User repoUserAuthor = userRepository.findWithTeam(user1.getId()).get();
         User repoUserAssigned1 = userRepository.findWithTeam(user2.getId()).get();
         User repoUserAssigned2 = userRepository.findWithTeam(user3.getId()).get();
@@ -96,7 +93,7 @@ public class UserRestControllerIT {
         repoUserAssigned1.getPullRequests().add(pullRequest);
         repoUserAssigned2.getPullRequests().add(pullRequest);
 
-        pullRequest = pullRequestRepository.save(pullRequest);
+        pullRequestRepository.save(pullRequest);
         GetUserPullRequestsRs userPullRequestsRs = userController.getUserPullRequests(user2.getId());
 
         Assertions.assertNotNull(userPullRequestsRs);
@@ -128,8 +125,10 @@ public class UserRestControllerIT {
                 .members(Set.of(user))
                 .build();
 
-        team.getMembers().forEach(u -> u.setTeam(team));
-        teamRepository.save(team);
+        Team finalTeam = team;
+        team.getMembers().forEach(u -> u.setTeam(finalTeam));
+        team = teamRepository.save(team);
+        userRepository.saveAll(team.getMembers());
 
         UpdateUserRq userRq = UpdateUserRq.builder()
                 .userId(user.getId())
