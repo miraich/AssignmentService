@@ -1,5 +1,7 @@
 Сервис для управления назначением ревьюверов на Pull Request'ы. Позволяет создавать команды, управлять пользователями, создавать PR и автоматически назначать ревьюверов из команды автора.
 
+[ТЗ проекта](https://github.com/avito-tech/tech-internship/blob/main/Tech%20Internships/Backend/Backend-trainee-assignment-autumn-2025/Backend-trainee-assignment-autumn-2025.md)
+
 ## Стек
 
 - **Java 23**
